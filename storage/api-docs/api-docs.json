@@ -1,0 +1,28 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API peopaygo",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000"
+        }
+    ],
+    "paths": {
+        "/api/users": {
+            "get": {
+                "summary": "Show all users",
+                "operationId": "566aed8efb436ca506e0ef51a032ecd9",
+                "responses": {
+                    "200": {
+                        "description": "Show all users."
+                    },
+                    "default": {
+                        "description": "Error"
+                    }
+                }
+            }
+        }
+    }
+}
