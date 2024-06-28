@@ -29,7 +29,7 @@ class AuthController extends ApiController
     *     @OA\Response(
     *         response="422",
     *         description="show email or password invalid message"
-    *     )
+    *     ),
     *    @OA\Response(
     *         response="400",
     *         description="fields required message"
@@ -43,7 +43,7 @@ class AuthController extends ApiController
 
         $validator = Validator::make($data, [
             'email' => 'required|email:rfc,dns',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {

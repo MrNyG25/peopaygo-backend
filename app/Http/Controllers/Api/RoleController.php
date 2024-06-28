@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class RoleController extends ApiController
 {
     /**
-     * Display a listing of the resource.
-     */
+    * @OA\Get(
+    *     path="/api/roles",
+    *     summary="Show all roles",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Show all roles."
+    *     ),
+    *     @OA\Response(
+    *         response="default",
+    *         description="show empty array"
+    *     )
+    * )
+    */
     public function index()
     {
-        //
+        $users = Role::all();
+
+        return $this->showAll($users);
     }
 }

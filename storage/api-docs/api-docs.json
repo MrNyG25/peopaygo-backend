@@ -20,6 +20,9 @@
                     },
                     "422": {
                         "description": "show email or password invalid message"
+                    },
+                    "400": {
+                        "description": "fields required message"
                     }
                 }
             }
@@ -34,6 +37,64 @@
                     },
                     "401": {
                         "description": "unauthorized message"
+                    }
+                }
+            }
+        },
+        "/api/customers": {
+            "get": {
+                "summary": "Show all customers",
+                "operationId": "1b873d7b0c63876f30a978b52c4d24d2",
+                "responses": {
+                    "200": {
+                        "description": "Show all customers."
+                    },
+                    "default": {
+                        "description": "show empty array"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Customer updated successfully",
+                "operationId": "1c1da5e8d6f659235c7ce12e0c711b56",
+                "responses": {
+                    "201": {
+                        "description": "Customer updated successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Customer created successfully",
+                "operationId": "747630c757eae4c38404384330e68c57",
+                "responses": {
+                    "201": {
+                        "description": "Customer created successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/roles": {
+            "get": {
+                "summary": "Show all roles",
+                "operationId": "ca86f0a206144dfbd695b749b4b28f9d",
+                "responses": {
+                    "200": {
+                        "description": "Show all roles."
+                    },
+                    "default": {
+                        "description": "show empty array"
                     }
                 }
             }
