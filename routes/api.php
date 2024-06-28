@@ -22,7 +22,6 @@ use App\Http\Controllers\Api\UserController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::apiResource('users', UserController::class)->only(['index']);
 
@@ -31,8 +30,6 @@ Route::apiResource('roles', RoleController::class)->only(['index']);
 Route::apiResource('customers', CustomerController::class)->only(['index', 'store', 'update']);
 
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

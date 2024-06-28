@@ -38,11 +38,10 @@ class AuthController extends ApiController
     */
     public function login(Request $request): JsonResponse
     {
-
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'email' => 'required|email:rfc,dns',
+            'email' => 'required|email:rfc',
             'password' => 'required|string|min:8',
         ]);
 
@@ -50,14 +49,14 @@ class AuthController extends ApiController
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::where('email', "test@example.com")->first();
+        $user = User::where('email', $data['email'])->first();
 
-        if (! $user || ! Hash::check(request()->password, $user->password)) {
+        if (! $user || ! Hash::check($data['password'], $user->password)) {
             return $this->errorResponse("email or password invalid", 422);
         }
 
         return $this->successResponse([
-            'token' => $user->createToken("ff")->plainTextToken
+            'token' => $user->createToken("user-token")->plainTextToken
         ], 200);
     }
 
@@ -76,7 +75,6 @@ class AuthController extends ApiController
     *     )
     * )
     */
-
     public function logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();
@@ -85,4 +83,27 @@ class AuthController extends ApiController
             "message" => "logged out"
         ], 200);
     }
+
+    /**
+    * @OA\Post(
+    *     path="/api/user",
+    *     summary="user detail",
+    *     @OA\Response(
+    *         response=200,
+    *         description="return user"
+    *     ),
+    *     @OA\Response(
+    *         response="401",
+    *         description="unauthorized message"
+    *     )
+    * )
+    */
+    public function user(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        return $this->showOne($user);
+    }
+
+
 }

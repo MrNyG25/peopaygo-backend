@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends ApiController
@@ -56,7 +57,7 @@ class CustomerController extends ApiController
 
         $validator = Validator::make($data, [
             'name' => 'required|string|min:3',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'required|email:rfc|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -68,10 +69,14 @@ class CustomerController extends ApiController
         try{
             $user_id = User::insertGetId([
                 'name' => $data['name'],
-                'role_id' => User::CUSTOMER_ROLE
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role_id' => User::CUSTOMER_ROLE,
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
 
-            Customer::insert([
+            Customer::create([
                 'name' => $data['name'],
                 'user_id' => $user_id,
             ]);
@@ -121,14 +126,19 @@ class CustomerController extends ApiController
             'name' => 'nullable|string|min:3',
             'email' => 'nullable|email:rfc,dns',
             'password' => 'nullable|string|min:8|confirmed',
+            'changePassword' => 'nullable|boolean'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
         DB::beginTransaction();
         try{
+
+            if($data['changePassword'] && Hash::check($data['password'], )){
+
+            }
+
             User::where('id',$customer->user_id)->update([
                 'name' => $data['name'],
             ]);
