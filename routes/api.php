@@ -6,7 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\PaymentPeriodController;
+use App\Http\Controllers\Api\PaymentTypeController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\TimesheetController;
 use App\Http\Controllers\Api\UserController;
 
 /*
@@ -28,6 +32,14 @@ Route::apiResource('users', UserController::class)->only(['index']);
 Route::apiResource('roles', RoleController::class)->only(['index']);
 
 Route::apiResource('customers', CustomerController::class)->only(['index', 'store', 'update']);
+
+Route::apiResource('payment-types', PaymentTypeController::class)->only(['index']);
+
+Route::resource('employees', EmployeeController::class);
+
+Route::apiResource('timesheets', TimesheetController::class);
+
+Route::apiResource('payment-periods', PaymentPeriodController::class);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('/user', [AuthController::class, 'user']);
