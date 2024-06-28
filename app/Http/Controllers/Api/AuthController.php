@@ -49,14 +49,15 @@ class AuthController extends ApiController
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::where('email', $data['email'])->first();
+        $user = User::with('role')->where('email', $data['email'])->first();
 
         if (! $user || ! Hash::check($data['password'], $user->password)) {
             return $this->errorResponse("email or password invalid", 422);
         }
 
         return $this->successResponse([
-            'token' => $user->createToken("user-token")->plainTextToken
+            "token" => $user->createToken("user-token")->plainTextToken,
+            "user" => $user
         ], 200);
     }
 
