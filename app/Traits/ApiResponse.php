@@ -5,7 +5,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 trait ApiResponse{
-    private function successResponse($data, $code){
+    protected function successResponse($data, $code){
         return response()->json($data, $code);
     }
 

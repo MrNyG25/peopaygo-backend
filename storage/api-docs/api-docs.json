@@ -10,6 +10,34 @@
         }
     ],
     "paths": {
+        "/api/login": {
+            "post": {
+                "summary": "users login",
+                "operationId": "222b2625838e3c57e017987f73598fda",
+                "responses": {
+                    "200": {
+                        "description": "return token"
+                    },
+                    "422": {
+                        "description": "show email or password invalid message"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "summary": "users logout",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
+                "responses": {
+                    "200": {
+                        "description": "return success"
+                    },
+                    "401": {
+                        "description": "unauthorized message"
+                    }
+                }
+            }
+        },
         "/api/users": {
             "get": {
                 "summary": "Show all users",
@@ -19,10 +47,21 @@
                         "description": "Show all users."
                     },
                     "default": {
-                        "description": "Error"
+                        "description": "show empty array"
                     }
                 }
             }
         }
-    }
+    },
+    "components": {
+        "schemas": {
+            "User": {}
+        }
+    },
+    "tags": [
+        {
+            "name": "Users",
+            "description": "All user API endpoints"
+        }
+    ]
 }

@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 * @OA\Info(title="API peopaygo", version="1.0")
 *
 * @OA\Server(url="http://127.0.0.1:8000")
+*
+* @OA\Tag(
+*     name="Users",
+*     description="All user API endpoints"
+*)
 */
 class UserController extends ApiController
 {
