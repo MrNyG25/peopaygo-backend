@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Models\PaymentType;
 use Illuminate\Database\Seeder;
 
-class RoleSeeder extends Seeder
+class PaymentTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +13,10 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['id' => 1,  'name' =>'admin'],
-            ['id' => 2,  'name' =>'customer'],
+            ['id' => 1,  'name' =>'hour'],
+            ['id' => 2,  'name' =>'salary'],
         ];
         
-        Role::insert($data);
+        PaymentType::insert($data);
     }
 }
