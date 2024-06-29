@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\CustomerEmployeeController;
+use App\Http\Controllers\Api\CustomerTimesheetController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\PaymentPeriodController;
 use App\Http\Controllers\Api\PaymentTypeController;
@@ -32,6 +33,7 @@ Route::apiResource('roles', RoleController::class)->only(['index']);
 
 Route::apiResource('customers', CustomerController::class)->except(['destroy']);
 Route::apiResource('customers.employees', CustomerEmployeeController::class)->only(['index']);
+Route::apiResource('customers.timesheets', CustomerTimesheetController::class)->only(['index']);
 
 Route::apiResource('payment-types', PaymentTypeController::class)->only(['index']);
 

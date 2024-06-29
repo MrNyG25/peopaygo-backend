@@ -227,7 +227,7 @@ class TimesheetController extends ApiController
         }
 
         $timesheet->timesheet_status_id = $data['timesheet_status_id'];
-        $timesheet->save();
+        $timesheet->update();
 
         return $this->successResponse([
             "message" => "Timesheet status updated successfully"
