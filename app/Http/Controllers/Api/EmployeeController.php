@@ -76,8 +76,23 @@ class EmployeeController extends ApiController
     }
 
     /**
-     * Display the specified resource.
-     */
+    * @OA\Get(
+    *     path="/api/employees/{employee}",
+    *     summary="Employee",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Employee info"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="not found"
+    *     ),
+    *     @OA\Response(
+    *         response="500",
+    *         description="Error Something went wrong"
+    *     )
+    * )
+    */
     public function show(Employee $employee)
     {
         return $this->showOne($employee);

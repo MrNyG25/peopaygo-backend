@@ -93,11 +93,28 @@ class CustomerController extends ApiController
     }
 
     /**
-     * Display the specified resource.
-     */
+    * @OA\Get(
+    *     path="/api/customers/{employee}",
+    *     summary="customer",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Customers info"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="not found"
+    *     ),
+    *     @OA\Response(
+    *         response="500",
+    *         description="Error Something went wrong"
+    *     )
+    * )
+    */
     public function show(Customer $customer)
     {
-        //
+        $customer->load('user');
+        
+        return $this->showOne($customer);
     }
 
     /**
