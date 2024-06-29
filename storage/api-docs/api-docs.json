@@ -41,6 +41,20 @@
                 }
             }
         },
+        "/api/user": {
+            "post": {
+                "summary": "user detail",
+                "operationId": "1a23d94e1cd1b51231f0d8d698eceffb",
+                "responses": {
+                    "200": {
+                        "description": "return user"
+                    },
+                    "401": {
+                        "description": "unauthorized message"
+                    }
+                }
+            }
+        },
         "/api/customers": {
             "get": {
                 "summary": "Show all customers",
@@ -85,6 +99,184 @@
                 }
             }
         },
+        "/api/customers/{employee}": {
+            "get": {
+                "summary": "customer",
+                "operationId": "5a379d9f66ce843d8234d1a281b000b6",
+                "responses": {
+                    "200": {
+                        "description": "Customers info"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/customers/{customer}/employees": {
+            "get": {
+                "summary": "customer's employees",
+                "operationId": "8a8782d243928d1db9f9226b4b01febb",
+                "responses": {
+                    "200": {
+                        "description": "return employess"
+                    },
+                    "404": {
+                        "description": "customer not found"
+                    }
+                }
+            }
+        },
+        "/api/customers/{customer}/timesheets": {
+            "get": {
+                "summary": "customer's timesheets",
+                "operationId": "c809776379db250162465ff6803a8b17",
+                "responses": {
+                    "200": {
+                        "description": "return timesheets"
+                    },
+                    "404": {
+                        "description": "customer not found"
+                    }
+                }
+            }
+        },
+        "/api/employees": {
+            "get": {
+                "summary": "Show all employees",
+                "operationId": "b9b73e1873c5fe36b951f014f711e4fa",
+                "responses": {
+                    "200": {
+                        "description": "Show all employees."
+                    },
+                    "default": {
+                        "description": "Show empty array"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Employee created successfully",
+                "operationId": "781d9d682a574c5e2c1dab17f782b5cd",
+                "responses": {
+                    "201": {
+                        "description": "Employee created successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/employees/{employee}": {
+            "get": {
+                "summary": "Employee",
+                "operationId": "c2a3a0ec2a75e78c2d9e622df0085a77",
+                "responses": {
+                    "200": {
+                        "description": "Employee info"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Employee updated successfully",
+                "operationId": "6e77188ef152be1ee6ec3321fcb02882",
+                "responses": {
+                    "200": {
+                        "description": "Employee updated successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Employee deleted successfully",
+                "operationId": "799db2e2d0fe3a7fb4c8dd8adb3484e7",
+                "responses": {
+                    "200": {
+                        "description": "Employee deleted successfully."
+                    },
+                    "404": {
+                        "description": "Employee not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/payment_periods": {
+            "get": {
+                "summary": "Show all payment periods",
+                "operationId": "a16cff073c01a3539e99c582c7440b19",
+                "responses": {
+                    "200": {
+                        "description": "Show all payment periods."
+                    },
+                    "default": {
+                        "description": "Show empty array"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Payment period created successfully",
+                "operationId": "5104732b2f4ba8d9e73645ef835700e1",
+                "responses": {
+                    "201": {
+                        "description": "Payment period created successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/payment_periods/{paymentPeriod}": {
+            "get": {
+                "summary": "Show a specific payment period",
+                "operationId": "bfbbc51083a50717e4d4959badead37c",
+                "responses": {
+                    "404": {
+                        "description": "Payment period not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/payment-types": {
+            "get": {
+                "summary": "Show all payment types",
+                "operationId": "3da603aa8666815889a32ade43ff5b9a",
+                "responses": {
+                    "200": {
+                        "description": "Show all payment types."
+                    },
+                    "default": {
+                        "description": "show empty array"
+                    }
+                }
+            }
+        },
         "/api/roles": {
             "get": {
                 "summary": "Show all roles",
@@ -95,6 +287,98 @@
                     },
                     "default": {
                         "description": "show empty array"
+                    }
+                }
+            }
+        },
+        "/api/timesheets": {
+            "get": {
+                "summary": "Show all timesheets",
+                "operationId": "b5d822113c2c85b0f4f86f1fcfa2b52a",
+                "responses": {
+                    "200": {
+                        "description": "Show all timesheets."
+                    },
+                    "default": {
+                        "description": "Show empty array"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Timesheet created successfully",
+                "operationId": "8e300a3d6b6e12958f52d4ba7fa4d2be",
+                "responses": {
+                    "201": {
+                        "description": "Timesheet created successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/timesheets/{timesheet}": {
+            "put": {
+                "summary": "Timesheet updated successfully",
+                "operationId": "1a7551a7d1fde2d4f889ae83f39b7c01",
+                "responses": {
+                    "200": {
+                        "description": "Timesheet updated successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/timesheets/{timesheet}/updateStatus": {
+            "post": {
+                "summary": "Timesheet status updated successfully",
+                "operationId": "05fb9a299b4a7212796e3e02d7b5d014",
+                "responses": {
+                    "200": {
+                        "description": "Timesheet updated successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/timesheets/{timesheet}/updateAmount": {
+            "put": {
+                "summary": "Timesheet amount updated successfully",
+                "operationId": "0d8cd9050025215713c8729a3151c31c",
+                "responses": {
+                    "200": {
+                        "description": "Timesheet updated successfully."
+                    },
+                    "400": {
+                        "description": "Validation rules"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "500": {
+                        "description": "Error Something went wrong"
                     }
                 }
             }

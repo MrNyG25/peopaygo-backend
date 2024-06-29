@@ -156,8 +156,23 @@ class EmployeeController extends ApiController
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
+    * @OA\Delete(
+    *     path="/api/employees/{employee}",
+    *     summary="Employee deleted successfully",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Employee deleted successfully."
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="Employee not found"
+    *     ),
+    *     @OA\Response(
+    *         response="500",
+    *         description="Error Something went wrong"
+    *     )
+    * )
+    */
     public function destroy(Employee $employee)
     {
         $employee->delete();

@@ -161,39 +161,9 @@ class TimesheetController extends ApiController
         ], 200);
     }
 
-    /**
-    * @OA\Put(
-    *     path="/api/timesheets/{timesheet}",
-    *     summary="Timesheet updated successfully",
-    *     @OA\Response(
-    *         response=200,
-    *         description="Timesheet updated successfully."
-    *     ),
-    *     @OA\Response(
-    *         response="400",
-    *         description="Validation rules"
-    *     ),
-    *     @OA\Response(
-    *         response="404",
-    *         description="not found"
-    *     ),
-    *     @OA\Response(
-    *         response="500",
-    *         description="Error Something went wrong"
-    *     )
-    * )
-    */
-    public function destroy(Timesheet $timesheet)
-    {
-        $timesheet->delete();
-
-        return $this->successResponse([
-            "message" => "Timesheet deleted successfully"
-        ], 200);
-    }
 
     /**
-    * @OA\Put(
+    * @OA\Post(
     *     path="/api/timesheets/{timesheet}/updateStatus",
     *     summary="Timesheet status updated successfully",
     *     @OA\Response(

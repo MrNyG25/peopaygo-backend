@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentPeriodController extends ApiController
 {
-        /**
+    /**
     * @OA\Get(
     *     path="/api/payment_periods",
     *     summary="Show all payment periods",
