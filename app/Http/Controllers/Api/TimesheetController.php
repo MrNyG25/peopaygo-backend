@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
+use App\Models\PaymentType;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +26,20 @@ class TimesheetController extends ApiController
     */
     public function index()
     {
-        $timesheets = Timesheet::with(['employee.paymentType', 'timesheetStatus'])->get();
+        $timesheets = Timesheet::with(['employee.paymentType', 'timesheetStatus'])
+                                ->orderBy('id', 'asc')
+                                ->get();
+
+        $timesheets = $timesheets->map(function ($timesheet) {
+            if($timesheet->employee->payment_type_id == PaymentType::HOURS){
+                $timesheet['total'] = $timesheet->employee->pay_rate * $timesheet->amount;
+            }else{
+                //because is PaymentType::SALARY
+                $timesheet['total'] = $timesheet->employee->pay_rate;
+            }
+            return $timesheet;
+        });
+
 
         return $this->showAll($timesheets);
     }
@@ -41,6 +55,10 @@ class TimesheetController extends ApiController
     *     @OA\Response(
     *         response="400",
     *         description="Validation rules"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="not found"
     *     ),
     *     @OA\Response(
     *         response="500",
@@ -94,6 +112,10 @@ class TimesheetController extends ApiController
     *     @OA\Response(
     *         response="400",
     *         description="Validation rules"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="not found"
     *     ),
     *     @OA\Response(
     *         response="500",
@@ -152,6 +174,10 @@ class TimesheetController extends ApiController
     *         description="Validation rules"
     *     ),
     *     @OA\Response(
+    *         response="404",
+    *         description="not found"
+    *     ),
+    *     @OA\Response(
     *         response="500",
     *         description="Error Something went wrong"
     *     )
@@ -167,8 +193,27 @@ class TimesheetController extends ApiController
     }
 
     /**
-     * Update the status of the specified timesheet.
-     */
+    * @OA\Put(
+    *     path="/api/timesheets/{timesheet}/updateStatus",
+    *     summary="Timesheet status updated successfully",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Timesheet updated successfully."
+    *     ),
+    *     @OA\Response(
+    *         response="400",
+    *         description="Validation rules"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="not found"
+    *     ),
+    *     @OA\Response(
+    *         response="500",
+    *         description="Error Something went wrong"
+    *     )
+    * )
+    */
     public function updateStatus(Request $request, Timesheet $timesheet)
     {
         $data = $request->all();
@@ -186,6 +231,57 @@ class TimesheetController extends ApiController
 
         return $this->successResponse([
             "message" => "Timesheet status updated successfully"
+        ], 200);
+    }
+
+    /**
+    * @OA\Put(
+    *     path="/api/timesheets/{timesheet}/updateAmount",
+    *     summary="Timesheet amount updated successfully",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Timesheet updated successfully."
+    *     ),
+    *     @OA\Response(
+    *         response="400",
+    *         description="Validation rules"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="not found"
+    *     ),
+    *     @OA\Response(
+    *         response="500",
+    *         description="Error Something went wrong"
+    *     )
+    * )
+    */
+    public function updateAmount(Request $request, Timesheet $timesheet)
+    {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'amount' => 'required|integer|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $timesheet->load('employee');
+
+        if($timesheet->employee->payment_type_id == PaymentType::SALARY){
+            return $this->errorResponse("Can not update amout for a timesheet with paytype salary", 400);
+        }
+
+        if($timesheet->employee->payment_type_id == PaymentType::HOURS){
+            $timesheet->amount = $timesheet->amount += $data['amount'];
+        }
+
+        $timesheet->update();
+
+        return $this->successResponse([
+            "message" => "Timesheet amount updated successfully"
         ], 200);
     }
 }

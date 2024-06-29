@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Employee;
+use App\Models\PaymentType;
 use App\Models\TimesheetStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,10 +19,12 @@ class TimesheetFactory extends Factory
      */
     public function definition(): array
     {
+        $employee = Employee::inRandomOrder()->first();
+
         return [
-            'employee_id' => Employee::inRandomOrder()->first()->id,
+            'employee_id' => $employee->id,
             'timesheet_status_id' => TimesheetStatus::inRandomOrder()->first()->id,
-            'amount' => $this->faker->randomNumber(2),
+            'amount' => $employee->payment_type_id == PaymentType::HOURS ? $this->faker->randomNumber(2) : null ,
             'note' => $this->faker->sentence,
         ];
     }

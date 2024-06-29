@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
@@ -38,6 +36,9 @@ Route::apiResource('payment-types', PaymentTypeController::class)->only(['index'
 Route::resource('employees', EmployeeController::class);
 
 Route::apiResource('timesheets', TimesheetController::class);
+Route::post('timesheets/{timesheet}/updateStatus', [TimesheetController::class, 'updateStatus']);
+Route::post('timesheets/{timesheet}/updateAmount', [TimesheetController::class, 'updateAmount']);
+
 
 Route::apiResource('payment-periods', PaymentPeriodController::class);
 

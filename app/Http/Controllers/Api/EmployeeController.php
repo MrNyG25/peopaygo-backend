@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Employee;
+use App\Models\PaymentType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,7 +54,7 @@ class EmployeeController extends ApiController
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'name' => 'required|string|min:3',
+            'name' => 'required|string|min:3|unique:employees',
             'payment_type_id' => 'required|integer|exists:payment_types,id',
             'pay_rate' => 'required|integer',
             'customer_id' => 'required|integer|exists:customers,id',
