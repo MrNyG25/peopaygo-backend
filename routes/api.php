@@ -35,7 +35,7 @@ Route::apiResource('customers', CustomerController::class)->except(['destroy']);
 Route::apiResource('customers.employees', CustomerEmployeeController::class)->only(['index']);
 Route::apiResource('customers.timesheets', CustomerTimesheetController::class)->only(['index']);
 
-Route::apiResource('payment-types', PaymentTypeController::class)->only(['index']);
+Route::apiResource('payment_types', PaymentTypeController::class)->only(['index']);
 
 Route::resource('employees', EmployeeController::class);
 
@@ -43,8 +43,7 @@ Route::apiResource('timesheets', TimesheetController::class);
 Route::post('timesheets/{timesheet}/updateStatus', [TimesheetController::class, 'updateStatus']);
 Route::post('timesheets/{timesheet}/updateAmount', [TimesheetController::class, 'updateAmount']);
 
-
-Route::apiResource('payment-periods', PaymentPeriodController::class);
+Route::apiResource('payment_periods', PaymentPeriodController::class)->only(['index', 'store', 'show']);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('/user', [AuthController::class, 'user']);

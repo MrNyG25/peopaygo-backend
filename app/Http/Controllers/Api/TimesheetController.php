@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\ApiController;
 use App\Models\PaymentType;
 use App\Models\Timesheet;
+use App\Models\TimesheetStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -72,7 +73,6 @@ class TimesheetController extends ApiController
 
         $validator = Validator::make($data, [
             'employee_id' => 'required|integer|exists:employees,id',
-            'timesheet_status_id' => 'required|integer|exists:timesheet_statuses,id',
             'amount' => 'nullable|integer',
             'note' => 'nullable|string',
         ]);
@@ -83,7 +83,7 @@ class TimesheetController extends ApiController
 
         Timesheet::create([
             'employee_id' => $data['employee_id'],
-            'timesheet_status_id' => $data['timesheet_status_id'],
+            'timesheet_status_id' => TimesheetStatus::TO_PAY,
             'amount' => $data['amount'],
             'note' => $data['note'],
         ]);

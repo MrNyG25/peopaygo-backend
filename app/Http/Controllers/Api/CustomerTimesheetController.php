@@ -34,6 +34,7 @@ class CustomerTimesheetController extends ApiController
 
         $timesheets = $timesheets->map(function($timesheet){
             $timesheet->load('employee');
+            $timesheet->load('timesheetStatus');
 
             if($timesheet->employee->payment_type_id == PaymentType::HOURS){
                 $timesheet['total'] = $timesheet->employee->pay_rate * $timesheet->amount;

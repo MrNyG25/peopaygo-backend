@@ -9,6 +9,10 @@ class TimesheetStatus extends Model
 {
     use HasFactory;
 
+    const TO_PAY = 1;
+    const PAYED = 2;
+
+
     protected $fillable = [
         'name',
     ];
