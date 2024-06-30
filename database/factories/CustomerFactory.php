@@ -17,7 +17,7 @@ class CustomerFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::all()->random();
+        $user = User::where('id', '!=', 1000)->get()->random();
         
         return [
             'name' => $user->name,

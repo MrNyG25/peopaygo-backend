@@ -36,7 +36,7 @@ class UserController extends ApiController
     */
     public function index()
     {
-        $users = User::with('role')->get();
+        $users = User::with(['role'])->get();
 
         return $this->showAll($users);
     }
