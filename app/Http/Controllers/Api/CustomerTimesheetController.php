@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\ApiController;
 use App\Models\Customer;
 use App\Models\PaymentType;
+use App\Models\TimesheetStatus;
 
 class CustomerTimesheetController extends ApiController
 {
@@ -30,10 +31,11 @@ class CustomerTimesheetController extends ApiController
                             ->pluck('timesheets')
                             ->collapse()
                             ->unique('id')
+                            ->where('timesheet_status_id', TimesheetStatus::TO_PAY)
                             ->values();
-
+                            
         $timesheets = $timesheets->map(function($timesheet){
-            $timesheet->load('employee');
+            $timesheet->load('employee.paymentType');
             $timesheet->load('timesheetStatus');
 
             if($timesheet->employee->payment_type_id == PaymentType::HOURS){
@@ -43,9 +45,13 @@ class CustomerTimesheetController extends ApiController
                 $timesheet['total'] = $timesheet->employee->pay_rate;
             }
             return $timesheet;
-        });
+        })->sortDesc()->values();
 
+        $timesheetsTotal = $timesheets->sum('total');
 
-        return $this->showAll($timesheets);
+        return response()->json([
+            "data" => $timesheets,
+            "timesheetsTotal" => $timesheetsTotal,
+        ]);
     }
 }

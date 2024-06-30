@@ -98,6 +98,7 @@ class TimesheetController extends ApiController
      */
     public function show(Timesheet $timesheet)
     {
+        $timesheet->load('employee.paymentType');
         return $this->showOne($timesheet);
     }
 

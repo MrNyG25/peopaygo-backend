@@ -96,6 +96,8 @@ class EmployeeController extends ApiController
     */
     public function show(Employee $employee)
     {
+        $employee->load('paymentType');
+
         return $this->showOne($employee);
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\PaymentType;
 use Illuminate\Http\Request;
 
-class PaymentTypeController extends Controller
+class PaymentTypeController extends ApiController
 {
     /**
     * @OA\Get(
@@ -24,9 +24,9 @@ class PaymentTypeController extends Controller
     */
     public function index()
     {
-        $users = PaymentType::all();
+        $paymentTypes = PaymentType::all();
 
-        return $this->showAll($users);
+        return $this->showAll($paymentTypes);
     }
 
 }
