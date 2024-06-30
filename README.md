@@ -27,3 +27,4 @@ php artisan l5-swagger:generate
 ```
 api/documentation
 ```
+![peopago](https://raw.githubusercontent.com/MrNyG25/peopaygo-backend/main/peopago.png)
