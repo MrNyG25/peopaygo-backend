@@ -28,9 +28,11 @@ class CustomerController extends ApiController
     */
     public function index()
     {
-        $users = Customer::all();
+        $customers = Customer::with('user')
+                            ->orderBy('id', 'desc')
+                            ->get();
 
-        return $this->showAll($users);
+        return $this->showAll($customers);
     }
 
     /**
@@ -119,7 +121,7 @@ class CustomerController extends ApiController
 
     /**
     * @OA\Put(
-    *     path="/api/customers",
+    *     path="/api/customers/{customer}",
     *     summary="Customer updated successfully",
     *     @OA\Response(
     *         response=201,
@@ -141,9 +143,10 @@ class CustomerController extends ApiController
 
         $validator = Validator::make($data, [
             'name' => 'nullable|string|min:3',
-            'email' => 'nullable|email:rfc,dns',
+            'email' => 'nullable|email:rfc',
             'password' => 'nullable|string|min:8|confirmed',
-            'changePassword' => 'nullable|boolean'
+            'change_password' => 'nullable|boolean',
+            'actual_password' => 'nullable|string|min:8',
         ]);
 
         if ($validator->fails()) {
@@ -152,13 +155,30 @@ class CustomerController extends ApiController
         DB::beginTransaction();
         try{
 
-            if($data['changePassword'] && Hash::check($data['password'], )){
+            $user = User::where('id',$customer->user_id)->first();
 
+
+            if(isset($data['change_password']) && $data['change_password']){
+
+                if(!isset($data['actual_password'])){
+                    return $this->successResponse([
+                        "message" => "Actual password is required"
+                    ], 400);
+                }
+
+                if(!Hash::check($data['actual_password'], $user->password)){
+                    return $this->successResponse([
+                        "message" => "Actual password is wrong"
+                    ], 400);
+                }
+                //update password
+                $user->password = Hash::make($data['password']);
             }
 
-            User::where('id',$customer->user_id)->update([
-                'name' => $data['name'],
-            ]);
+            $user->name = $data['name'];
+            $user->email = $data['email'];
+
+            $user->update();
 
             $customer->name = $data['name'];
 

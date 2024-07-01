@@ -19,6 +19,10 @@ class Customer extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'created_at' => 'date:d/m/Y',
+    ];
+
     /**
      * Get the user that owns the customer.
      */
