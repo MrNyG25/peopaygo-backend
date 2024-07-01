@@ -16,6 +16,13 @@ class PaymentPeriod extends Model
         'check_date',
     ];
 
+    protected $casts = [
+        'start_at' => 'date:d/m/Y',
+        'end_at' => 'date:d/m/Y',
+        'check_date' => 'date:d/m/Y',
+        'created_at' => 'date:d/m/Y',
+    ];
+
     public function timesheets()
     {
         return $this->belongsToMany(Timesheet::class, 'payment_period_timesheet')->withTimestamps();
