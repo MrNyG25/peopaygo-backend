@@ -27,7 +27,7 @@ class PaymentPeriodController extends ApiController
     */
     public function index()
     {
-        $paymentPeriods = PaymentPeriod::with('timesheets')->get();
+        $paymentPeriods = PaymentPeriod::orderByDesc('id')->get();
 
         return $this->showAll($paymentPeriods);
     }
@@ -87,7 +87,7 @@ class PaymentPeriodController extends ApiController
 
      /**
     * @OA\Get(
-    *     path="/api/payment_periods/{paymentPeriod}",
+    *     path="/api/payment_periods/{payment_period}",
     *     summary="Show a specific payment period",
     *     @OA\Response(
     *         response="404",
@@ -99,8 +99,8 @@ class PaymentPeriodController extends ApiController
     *     )
     * )
     */
-    public function show(PaymentPeriod $paymentPeriod)
+    public function show(PaymentPeriod $payment_period)
     {
-        return $this->showOne($paymentPeriod->load('timesheets'));
+        return $this->showOne($payment_period->load('timesheets'));
     }
 }

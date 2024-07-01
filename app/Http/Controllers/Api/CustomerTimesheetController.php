@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Customer;
-use App\Models\PaymentType;
 use App\Models\TimesheetStatus;
+use App\Traits\TimesheetTotal;
 
 class CustomerTimesheetController extends ApiController
 {
+    use TimesheetTotal;
+    
     /**
     * @OA\Get(
     *     path="/api/customers/{customer}/timesheets",
@@ -34,24 +36,11 @@ class CustomerTimesheetController extends ApiController
                             ->where('timesheet_status_id', TimesheetStatus::TO_PAY)
                             ->values();
                             
-        $timesheets = $timesheets->map(function($timesheet){
-            $timesheet->load('employee.paymentType');
-            $timesheet->load('timesheetStatus');
-
-            if($timesheet->employee->payment_type_id == PaymentType::HOURS){
-                $timesheet['total'] = $timesheet->employee->pay_rate * $timesheet->amount;
-            }else{
-                //because is PaymentType::SALARY
-                $timesheet['total'] = $timesheet->employee->pay_rate;
-            }
-            return $timesheet;
-        })->sortDesc()->values();
-
-        $timesheetsTotal = $timesheets->sum('total');
+        $res = $this->computeTimesheetTotal($timesheets);
 
         return response()->json([
-            "data" => $timesheets,
-            "timesheetsTotal" => $timesheetsTotal,
+            "data" => $res['timesheets'],
+            "timesheetsTotal" =>  $res['timesheetsTotal'],
         ]);
     }
 }
