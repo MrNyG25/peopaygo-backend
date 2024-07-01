@@ -27,7 +27,6 @@ class PaymentPeriodTimesheetController extends ApiController
     public function index(PaymentPeriod $payment_period)
     {
         $timesheets = $payment_period->timesheets()
-                                    ->with(['employee.paymentType', 'timesheetStatus'])
                                     ->get();
 
         $res = $this->computeTimesheetTotal($timesheets);
