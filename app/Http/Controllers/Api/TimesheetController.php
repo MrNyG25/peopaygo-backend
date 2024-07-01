@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
+use App\Models\Employee;
 use App\Models\PaymentType;
 use App\Models\Timesheet;
 use App\Models\TimesheetStatus;
@@ -126,6 +127,8 @@ class TimesheetController extends ApiController
     */
     public function update(Request $request, Timesheet $timesheet)
     {
+
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -139,6 +142,8 @@ class TimesheetController extends ApiController
             return response()->json($validator->errors(), 400);
         }
 
+        $employee = Employee::where('id', $data['employee_id'])->first();
+
         if (isset($data['employee_id'])) {
             $timesheet->employee_id = $data['employee_id'];
         }
@@ -147,15 +152,19 @@ class TimesheetController extends ApiController
             $timesheet->timesheet_status_id = $data['timesheet_status_id'];
         }
 
-        if (isset($data['amount'])) {
+        if($employee->payment_type_id == PaymentType::SALARY){
+            $timesheet->amount = null;
+        }else{
             $timesheet->amount = $data['amount'];
         }
+
+        
 
         if (isset($data['note'])) {
             $timesheet->note = $data['note'];
         }
 
-        $timesheet->save();
+        $timesheet->update();
 
         return $this->successResponse([
             "message" => "Timesheet updated successfully"
