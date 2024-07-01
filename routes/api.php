@@ -29,27 +29,27 @@ use App\Http\Controllers\Api\UserController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::apiResource('users', UserController::class)->only(['index']);
-
-Route::apiResource('roles', RoleController::class)->only(['index']);
-
-Route::apiResource('customers', CustomerController::class)->except(['destroy']);
-Route::apiResource('customers.employees', CustomerEmployeeController::class)->only(['index']);
-Route::apiResource('customers.timesheets', CustomerTimesheetController::class)->only(['index']);
-Route::apiResource('customers.payment_periods', CustomerPaymentPeriodController::class)->only(['index']);
-
-Route::apiResource('payment_types', PaymentTypeController::class)->only(['index']);
-
-Route::resource('employees', EmployeeController::class);
-
-Route::apiResource('timesheets', TimesheetController::class);
-Route::post('timesheets/{timesheet}/updateStatus', [TimesheetController::class, 'updateStatus']);
-Route::post('timesheets/{timesheet}/updateAmount', [TimesheetController::class, 'updateAmount']);
-
-Route::apiResource('payment_periods', PaymentPeriodController::class)->only(['index', 'store', 'show']);
-Route::apiResource('payment_periods.timesheets', PaymentPeriodTimesheetController::class)->only(['index']);
-
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::apiResource('users', UserController::class)->only(['index']);
+
+    Route::apiResource('roles', RoleController::class)->only(['index']);
+
+    Route::apiResource('customers', CustomerController::class)->except(['destroy']);
+    Route::apiResource('customers.employees', CustomerEmployeeController::class)->only(['index']);
+    Route::apiResource('customers.timesheets', CustomerTimesheetController::class)->only(['index']);
+    Route::apiResource('customers.payment_periods', CustomerPaymentPeriodController::class)->only(['index']);
+
+    Route::apiResource('payment_types', PaymentTypeController::class)->only(['index']);
+
+    Route::resource('employees', EmployeeController::class);
+
+    Route::apiResource('timesheets', TimesheetController::class);
+    Route::post('timesheets/{timesheet}/updateStatus', [TimesheetController::class, 'updateStatus']);
+    Route::post('timesheets/{timesheet}/updateAmount', [TimesheetController::class, 'updateAmount']);
+
+    Route::apiResource('payment_periods', PaymentPeriodController::class)->only(['index', 'store', 'show']);
+    Route::apiResource('payment_periods.timesheets', PaymentPeriodTimesheetController::class)->only(['index']);
 });
