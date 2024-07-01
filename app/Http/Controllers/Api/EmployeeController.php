@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Employee;
-use App\Models\PaymentType;
+use App\Rules\FloridaPaymentValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -56,13 +56,15 @@ class EmployeeController extends ApiController
         $validator = Validator::make($data, [
             'name' => 'required|string|min:3|unique:employees',
             'payment_type_id' => 'required|integer|exists:payment_types,id',
-            'pay_rate' => 'required|integer',
+            'pay_rate' => ['required','integer', new FloridaPaymentValidation],
             'customer_id' => 'required|integer|exists:customers,id',
+            
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+
 
         Employee::create([
             'name' => $data['name'],
@@ -126,7 +128,7 @@ class EmployeeController extends ApiController
         $validator = Validator::make($data, [
             'name' => 'nullable|string|min:3',
             'payment_type_id' => 'nullable|integer|exists:payment_types,id',
-            'pay_rate' => 'nullable|integer',
+            'pay_rate' => ['required','integer', new FloridaPaymentValidation],
             'customer_id' => 'nullable|integer|exists:customers,id',
         ]);
 
